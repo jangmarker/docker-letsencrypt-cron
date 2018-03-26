@@ -2,6 +2,10 @@ FROM deliverous/certbot
 
 RUN mkdir /certs
 
+RUN apt-get update \
+    && apt-get install -q -y cron \
+    && rm -rf /var/lib/apt/lists/*
+
 # Add crontab file in the cron directory
 ADD crontab /etc/cron.d/crontab
 ADD scripts/run_certbot.sh /run_certbot.sh
