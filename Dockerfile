@@ -2,9 +2,7 @@ FROM deliverous/certbot
 
 RUN mkdir /certs
 
-RUN apt-get update \
-    && apt-get install -q -y cron \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache dcron
 
 # Add crontab file in the cron directory
 ADD crontab /etc/cron.d/crontab
@@ -18,4 +16,4 @@ RUN touch /var/log/letsencrypt.log
 
 ENTRYPOINT ["/bin/sh", "-c"]
 
-CMD ["cron -f && tail -f /var/log/letsencrypt.log"]
+CMD ["crond -f && tail -f /var/log/letsencrypt.log"]
